@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace指向UserDao路径-->
+<mapper namespace="com.example.demo.dao.UserDao">
+    <!--resultMap是定义返回数据实体的节点。
+        type指返回实体的类型，这里指向model下的User.java实体。
+        id是resltMap的唯一标识，只要不重复就ok，命名最好符合当前意义。
+        节点内的column与数据库的字段name对应。property与User.java属性对应。这样完成实体属性和数据库字段的映射-->
+    <resultMap type="com.example.demo.model.User" id="user">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
+    <!--select是mybatis的查询操作，类似的还有update，delete等
+        id是唯一标识，在services层调用会用到。
+        resultMap是对应上边返回数据实体的节点id
+        内部嵌套sql语句，#{ param }是接收的参数-->
+    <select id="get" resultMap="user">
+        select user.id, user.name, user.age
+        from user
+        where id = #{id}
+    </select>
+
+</mapper>
